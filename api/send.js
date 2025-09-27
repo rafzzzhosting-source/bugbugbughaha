@@ -1,23 +1,35 @@
+// api/send.js
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({error:'Method not allowed'});
-  }
-
-  const token = '8384066749:AAHXenoUSt9EprnzHP1RGv9XSDRhPxthGvM'; // ganti
-  const chat_id = '8331405438'; // ganti
+  if (req.method !== 'POST') return res.status(405).end();
 
   const { text } = req.body;
 
+  // ganti ini dengan token bot dan chat_id kamu
+  const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN; // token bot
+  const CHAT_ID = process.env.CHAT_ID; // chat_id kamu
+
+  const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+
   try {
-    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({chat_id,text})
+    const tgRes = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: text,         // kirim plain text apa adanya
+        // parse_mode: 'MarkdownV2'  <-- jangan pakai parse_mode
+      })
     });
-    const d = await r.json();
-    res.status(200).json(d);
-  } catch(e) {
-    console.error(e);
-    res.status(500).json({error:'Gagal kirim ke Telegram'});
+
+    if (!tgRes.ok) {
+      const errorText = await tgRes.text();
+      console.error('Telegram error:', errorText);
+      return res.status(500).json({ error: 'Failed to send to Telegram' });
+    }
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error sending to Telegram' });
   }
-      }
+}
