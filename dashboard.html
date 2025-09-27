@@ -3,154 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NIGHT GLITCH Dashboard</title>
+  <title>Dashboard - Night Glitch</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; }
     body {
+      margin: 0; padding: 0;
       font-family: 'Orbitron', sans-serif;
       background: #000;
       color: #fff;
-      min-height: 100vh;
     }
-
     .header {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      color: #ff0000;
-      font-size: 20px;
-      text-shadow: 0 0 8px #ff0000;
-    }
-
-    .container {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: start;
-      padding-top: 80px;
+      padding: 15px 20px;
     }
-
+    .header h1 {
+      color: #ff0000;
+      font-size: 22px;
+      margin: 0;
+    }
     .logo {
-      width: 120px;
-      height: 120px;
+      display: block;
+      margin: 10px auto;
+      width: 100px;
+      height: 100px;
       object-fit: contain;
-      margin-bottom: 20px;
     }
-
-    .title {
-      font-size: 28px;
+    .content {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .content h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
       color: #ff0000;
       text-shadow: 0 0 10px #ff0000,
-                   0 0 20px #ff0000;
-      margin-bottom: 20px;
+                   0 0 20px #ff0000,
+                   0 0 30px #ff0000;
     }
-
-    .input-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .input-group input {
+    .input-number {
       padding: 10px;
+      width: 250px;
       border: 1px solid #ff0000;
-      border-radius: 5px;
-      background: #111;
+      background: #000;
       color: #fff;
-      width: 200px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: 15px;
+      outline: none;
     }
-
     .btn {
-      padding: 10px 20px;
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px;
       background: #ff0000;
-      border: none;
-      border-radius: 5px;
       color: #fff;
-      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
       cursor: pointer;
       transition: 0.3s;
+      width: 250px;
+      font-family: 'Orbitron', sans-serif;
     }
     .btn:hover {
       background: #cc0000;
-      box-shadow: 0 0 8px #ff0000;
+      box-shadow: 0 0 10px #ff0000;
     }
-
-    .bugs {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .bug-btn {
+    .bug-buttons {
       display: none;
-      padding: 10px;
-      background: #111;
-      border: 1px solid #ff0000;
-      color: #ff0000;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      gap: 8px;
     }
-
-    .bug-btn.show {
-      display: block;
-      animation: fadeIn 0.4s ease-in;
+    .bug-buttons .btn {
+      width: 250px;
     }
-
-    @keyframes fadeIn {
-      from {opacity:0; transform: translateY(-5px);}
-      to {opacity:1; transform: translateY(0);}
-    }
-
   </style>
 </head>
 <body>
-  <div class="header">NIGHT GLITCH V1</div>
+  <!-- Header kiri atas -->
+  <div class="header">
+    <h1>NIGHT GLITCH V1</h1>
+  </div>
 
-  <div class="container">
-    <img src="https://files.catbox.moe/1k8abd.png" alt="Logo" class="logo">
-    <div class="title">MASUKAN NOMOR</div>
+  <!-- Logo di atas -->
+  <img src="https://files.catbox.moe/1k8abd.png" alt="Logo" class="logo">
 
-    <div class="input-group">
-      <input type="text" id="nomor" placeholder="Masukkan nomor">
-      <button class="btn" onclick="masukanNomor()">Masukkan Nomor</button>
-    </div>
+  <div class="content">
+    <h2>MASUKAN NOMOR</h2>
+    <!-- Input nomor (tanpa tombol masukan) -->
+    <input type="text" class="input-number" placeholder="Ketik nomor di sini">
 
-    <button class="btn" onclick="tampilBugs()">★ LIST ALL BUG ★</button>
+    <!-- Tombol ★LIST ALL BUG★ -->
+    <button class="btn" onclick="showAllBugs()">★ LIST ALL BUG ★</button>
 
-    <div class="bugs" id="bugs-list">
-      <button class="bug-btn">NIGHT GLITCH BLANK</button>
-      <button class="bug-btn">NIGHT GLITCH CRASH EASY</button>
-      <button class="bug-btn">NIGHT GLITCH CRASH HARD BLANK</button>
-      <button class="bug-btn">NIGHT GLITCH IOS HARD</button>
-      <button class="bug-btn">NIGHT GLITCH CRASH NO CLICK</button>
+    <!-- Tombol-tombol bug muncul langsung -->
+    <div class="bug-buttons" id="bugButtons">
+      <button class="btn">NIGHT GLITCH BLANK</button>
+      <button class="btn">NIGHT GLITCH CRASH EASY</button>
+      <button class="btn">NIGHT GLITCH CRASH HARD BLANK</button>
+      <button class="btn">NIGHT GLITCH IOS HARD</button>
+      <button class="btn">NIGHT GLITCH CRASH NO CLICK</button>
     </div>
   </div>
 
   <script>
-    function masukanNomor(){
-      const nomor = document.getElementById('nomor').value;
-      if(nomor){
-        alert('Nomor berhasil dimasukkan: ' + nomor);
+    let bugVisible = false;
+    function showAllBugs() {
+      const bugContainer = document.getElementById('bugButtons');
+      if (!bugVisible) {
+        bugContainer.style.display = 'flex';
+        bugVisible = true;
       } else {
-        alert('Silakan masukkan nomor terlebih dahulu!');
-      }
-    }
-
-    let bugIndex = 0;
-    function tampilBugs() {
-      const bugs = document.querySelectorAll('#bugs-list .bug-btn');
-      if (bugIndex < bugs.length) {
-        bugs[bugIndex].classList.add('show');
-        bugIndex++;
-      } else {
-        bugIndex = 0;
-        bugs.forEach(btn => btn.classList.remove('show'));
+        bugContainer.style.display = 'none';
+        bugVisible = false;
       }
     }
   </script>
