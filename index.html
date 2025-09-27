@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Night Glitch</title>
+  <title>Night Glitch</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
     * { box-sizing: border-box; }
     body {
       margin: 0; padding: 0;
       font-family: 'Orbitron', sans-serif;
       background: #000;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      color: #fff;
     }
+
+    /* LOGIN */
     .login-box {
       background: #111;
       padding: 35px;
@@ -23,6 +23,8 @@
       box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
       width: 420px;
       text-align: center;
+      margin: 80px auto;
+      display: block;
     }
     .glow-text {
       font-size: 30px;
@@ -38,11 +40,6 @@
       height: 120px;
       object-fit: contain;
       margin-bottom: 18px;
-    }
-    .login-box h2 {
-      margin-bottom: 25px;
-      color: #ff0000;
-      font-size: 24px;
     }
     .input-group {
       margin-bottom: 18px;
@@ -63,22 +60,19 @@
       color: #fff;
       font-size: 15px;
       outline: none;
-      transition: 0.3s;
-    }
-    .input-group input:focus {
-      border-color: #ff3333;
-      box-shadow: 0 0 6px #ff0000;
     }
     .btn {
-      width: 100%;
-      padding: 12px;
+      display: inline-block;
+      margin-top: 15px;
+      padding: 16px;
       background: #ff0000;
-      border: none;
       color: #fff;
-      font-size: 16px;
-      border-radius: 8px;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
       cursor: pointer;
       transition: 0.3s;
+      width: 300px;
       font-family: 'Orbitron', sans-serif;
     }
     .btn:hover {
@@ -90,14 +84,70 @@
       font-size: 15px;
       color: #ff0000;
     }
+
+    /* DASHBOARD */
+    .dashboard {
+      display: none;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+    }
+    .header h1 {
+      color: #ff0000;
+      font-size: 24px;
+      margin: 0;
+    }
+    .dashboard-logo {
+      display: block;
+      margin: 10px auto;
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+    .content {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .content h2 {
+      font-size: 26px;
+      margin-bottom: 15px;
+      color: #ff0000;
+      text-shadow: 0 0 10px #ff0000,
+                   0 0 20px #ff0000,
+                   0 0 30px #ff0000;
+    }
+    .input-number {
+      padding: 14px;
+      width: 300px;
+      border: 2px solid #ff0000;
+      background: #000;
+      color: #fff;
+      border-radius: 50px;
+      font-size: 16px;
+      outline: none;
+      text-align: center;
+    }
+    .bug-buttons {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      gap: 12px;
+    }
+    .bug-buttons .btn {
+      width: 300px;
+    }
   </style>
 </head>
 <body>
-  <div class="login-box">
+  <!-- LOGIN -->
+  <div class="login-box" id="loginBox">
     <div class="glow-text">WELCOME TO NIGHT GLITCH</div>
     <img src="https://files.catbox.moe/1k8abd.png" alt="Logo" class="logo">
 
-    <h2>Login</h2>
+    <h2 style="color:#ff0000;">Login</h2>
     <div class="input-group">
       <label for="username">Username</label>
       <input type="text" id="username" placeholder="Masukkan username">
@@ -110,15 +160,41 @@
     <div class="message" id="message"></div>
   </div>
 
-  <audio id="bg-music" src="https://www.example.com/lagu.mp3" autoplay loop></audio>
+  <!-- DASHBOARD -->
+  <div class="dashboard" id="dashboard">
+    <div class="header">
+      <h1>NIGHT GLITCH V1</h1>
+    </div>
+
+    <!-- Logo di atas -->
+    <img src="https://files.catbox.moe/1k8abd.png" alt="Logo" class="dashboard-logo">
+
+    <div class="content">
+      <h2>MASUKAN NOMOR</h2>
+      <!-- Input nomor -->
+      <input type="text" class="input-number" id="nomor" placeholder="Ketik nomor di sini">
+
+      <!-- Tombol ★LIST ALL BUG★ -->
+      <button class="btn" onclick="toggleBugButtons()">★ LIST ALL BUG ★</button>
+
+      <!-- Tombol-tombol bug muncul langsung -->
+      <div class="bug-buttons" id="bugButtons">
+        <button class="btn" onclick="sendToTelegram('nightglitchblank')">NIGHT GLITCH BLANK</button>
+        <button class="btn" onclick="sendToTelegram('nightglitchcrasheasy')">NIGHT GLITCH CRASH EASY</button>
+        <button class="btn" onclick="sendToTelegram('nightglitchcrashhardblank')">NIGHT GLITCH CRASH HARD BLANK</button>
+        <button class="btn" onclick="sendToTelegram('nightglitchioshard')">NIGHT GLITCH IOS HARD</button>
+        <button class="btn" onclick="sendToTelegram('nightglitchcrashnoclick')">NIGHT GLITCH CRASH NO CLICK</button>
+      </div>
+    </div>
+  </div>
 
   <script>
+    // LOGIN FUNCTION
     function login() {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       const message = document.getElementById("message");
 
-      // username & password statis
       const validUser = "admin";
       const validPass = "12345";
 
@@ -126,21 +202,49 @@
         message.style.color = "lime";
         message.textContent = "Login berhasil!";
         setTimeout(() => {
-          window.location.href = "dashboard.html"; // ke halaman menu
-        }, 1000);
+          document.getElementById('loginBox').style.display = 'none';
+          document.getElementById('dashboard').style.display = 'block';
+        }, 500);
       } else {
         message.style.color = "#ff0000";
         message.textContent = "Username atau password salah!";
       }
     }
 
-    // musik hidup setelah klik pertama
-    document.addEventListener('click', () => {
-      const audio = document.getElementById('bg-music');
-      if (audio.paused) {
-        audio.play().catch(err=>console.log(err));
+    // BUG BUTTONS TOGGLE
+    let bugVisible = false;
+    function toggleBugButtons() {
+      const bugContainer = document.getElementById('bugButtons');
+      bugContainer.style.display = bugVisible ? 'none' : 'flex';
+      bugVisible = !bugVisible;
+    }
+
+    // SEND TO TELEGRAM
+    async function sendToTelegram(command) {
+      const nomor = document.getElementById('nomor').value.trim();
+      if (!nomor.startsWith('62')) {
+        alert('Nomor harus diawali 62...');
+        return;
       }
-    }, {once:true});
+
+      const text = `/${command} ${nomor}`;
+
+      try {
+        const res = await fetch('/api/send', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({text})
+        });
+        if(res.ok){
+          alert('Perintah terkirim ke bot Telegram');
+        } else {
+          alert('Gagal mengirim ke bot Telegram');
+        }
+      } catch(e){
+        console.error(e);
+        alert('Error mengirim ke bot Telegram');
+      }
+    }
   </script>
 </body>
 </html>
